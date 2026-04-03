@@ -222,12 +222,16 @@
     // For python flask, an example is "https://github.com/yenchiah/COCTEAU-TUD/blob/main/back-end/www/controllers/photos_controller.py"
     // You need to change photoURL your API URL, such as "http://localhost:5000/photos/random?count=30"
     var photoURL = undefined; // for demo, the photo picker will load "file/photo.json"
-    var $photoPickerDialog = widgets.createUnsplashPhotoPickerDialog("dialog-photo-picker", undefined, photoURL, function (d) {
-      $("#vision-image").data("raw", d).prop("src", d["urls"]["regular"]);
-    });
-    $("#vision-image-frame").on("click", function () {
-      $photoPickerDialog.dialog("open");
-    });
+    var $visionImageFrame = $("#vision-image-frame");
+    var visionImageHref = $visionImageFrame.attr("href");
+    if ($visionImageFrame.length > 0 && visionImageHref === "javascript:void(0)") {
+      var $photoPickerDialog = widgets.createUnsplashPhotoPickerDialog("dialog-photo-picker", undefined, photoURL, function (d) {
+        $("#vision-image").data("raw", d).prop("src", d["urls"]["regular"]);
+      });
+      $visionImageFrame.on("click", function () {
+        $photoPickerDialog.dialog("open");
+      });
+    }
 
     // Create the masonry
     createMasonry();
